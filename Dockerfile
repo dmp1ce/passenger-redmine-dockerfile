@@ -11,23 +11,19 @@ MAINTAINER David Parrish <daveparrish@tutanota.com>
 # Set correct environment variables.
 ENV HOME /root
 
-# ============ Custom build code steps here =============
-
-# Requirements to build gems for redmine
-# nokogirl, rmagick, mysql
-# Clean up apt
-RUN apt-get update && \
-apt-get -y install libxslt1-dev libxml2-dev && \
-apt-get -y install imagemagick libmagickwand-dev && \
-apt-get -y install libmysqlclient-dev && \
-apt-get clean && \
-rm -r /var/lib/apt/lists/*
-
-# COPY redmine project
+# COPY default redmine to build default gems
 COPY redmine /home/app/redmine
+COPY redmine/config/database.yml.example /home/app/redmine/config/database.yml
 
+# Get/build redmine requirements
+# apt-get: nokogirl, rmagick, mysql
 # Build gems
-RUN cd /home/app/redmine && bundle install --without development test
-
+# Clean up apt
 # Enable nginx
-RUN rm -f /etc/service/nginx/down
+RUN apt-get update && \
+apt-get -y --no-install-recommends install \
+libxslt1-dev libxml2-dev imagemagick libmagickwand-dev libmysqlclient-dev && \
+apt-get clean && \
+cd /home/app/redmine && bundle install --without development test && \
+rm -r /var/lib/apt/lists/* && \
+rm -f /etc/service/nginx/down

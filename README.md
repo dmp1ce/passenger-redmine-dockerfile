@@ -9,3 +9,5 @@ Other parts include:
 - mariadb image
 - docker-compose for container orchestration
 - decompose for configuration
+
+See decompose project [redmine-decompose](https://github.com/dmp1ce/decompose-redmine).
