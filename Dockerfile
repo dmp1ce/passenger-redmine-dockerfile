@@ -5,7 +5,7 @@
 # See https://github.com/phusion/passenger-docker/blob/master/Changelog.md for
 # a list of version numbers.
 # OR live on the wild side and use latest
-FROM phusion/passenger-ruby22
+FROM phusion/passenger-ruby23
 MAINTAINER David Parrish <daveparrish@tutanota.com>
 
 # Set correct environment variables.
