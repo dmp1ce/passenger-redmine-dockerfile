@@ -22,7 +22,7 @@ COPY redmine/config/database.yml.example /home/app/redmine/config/database.yml
 # Enable nginx
 RUN apt-get update && \
 apt-get -y --no-install-recommends install \
-libxslt1-dev libxml2-dev imagemagick libmagickwand-dev libmysqlclient-dev && \
+libxslt1-dev libxml2-dev imagemagick libmagickwand-dev libmysqlclient-dev tzdata && \
 apt-get clean && \
 cd /home/app/redmine && bundle install --without development test && \
 rm -r /var/lib/apt/lists/* && \
