@@ -20,10 +20,12 @@ COPY redmine/config/database.yml.example /home/app/redmine/config/database.yml
 # Build gems
 # Clean up apt
 # Enable nginx
+# Increase client_max_body_size to 20m in nginx.conf
 RUN apt-get update && \
 apt-get -y --no-install-recommends install \
 libxslt1-dev libxml2-dev imagemagick libmagickwand-dev libmysqlclient-dev tzdata && \
 apt-get clean && \
 cd /home/app/redmine && bundle install --without development test && \
 rm -r /var/lib/apt/lists/* && \
-rm -f /etc/service/nginx/down
+rm -f /etc/service/nginx/down && \
+echo "# Managed by Dockerfile\n\nclient_max_body_size 20m;" > /etc/nginx/conf.d/client_max_body_size.conf
