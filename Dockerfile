@@ -17,6 +17,7 @@ COPY redmine/config/database.yml.example /home/app/redmine/config/database.yml
 
 # Get/build redmine requirements
 # apt-get: nokogirl, rmagick, mysql
+# Get correct version of bundler http://www.redmine.org/issues/30353
 # Build gems
 # Clean up apt
 # Enable nginx
@@ -25,6 +26,8 @@ RUN apt-get update && \
 apt-get -y --no-install-recommends install \
 libxslt1-dev libxml2-dev imagemagick libmagickwand-dev libmysqlclient-dev tzdata && \
 apt-get clean && \
+gem uninstall -i /usr/local/rvm/gems/ruby-2.3.8@global bundler && \
+gem install bundler -v "< 2.0" && \
 cd /home/app/redmine && bundle install --without development test && \
 rm -r /var/lib/apt/lists/* && \
 rm -f /etc/service/nginx/down && \
